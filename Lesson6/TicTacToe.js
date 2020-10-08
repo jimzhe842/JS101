@@ -3,10 +3,10 @@ let HUMAN_MOVE = 'O';
 let COMPUTER_MOVE = 'X';
 
 let threeInARows = [
-    [0,1,2], [3,4,5], [6,7,8],
-    [0,3,6], [1,4,7], [2,5,8],
-    [0,4,8], [2,4,6]
-  ]
+  [0,1,2], [3,4,5], [6,7,8],
+  [0,3,6], [1,4,7], [2,5,8],
+  [0,4,8], [2,4,6]
+];
 
 function prompt(message) {
   console.log(`=> ${message}`);
@@ -23,13 +23,14 @@ function displayBoard(arr) {
 }
 
 function checkWinner(arr) {
-  
-  for (let i = 0; i < threeInARows.length; i++) {
-    let humanWin = threeInARows[i].every(index => arr[index] === HUMAN_MOVE);
+
+  for (let idx = 0; idx < threeInARows.length; idx++) {
+    let humanWin = threeInARows[idx].every(index => arr[index] === HUMAN_MOVE);
     if (humanWin) {
       return "Human";
     }
-    let computerWin = threeInARows[i].every(index => arr[index] === COMPUTER_MOVE);
+    let computerWin = threeInARows[idx].every(
+      index => arr[index] === COMPUTER_MOVE);
     if (computerWin) {
       return "Computer";
     }
@@ -49,44 +50,31 @@ function joinOr(arr, delimiter = ',', word = 'or') {
 }
 
 function getComputerMove(boardArr) {
-  for (let i = 0; i < threeInARows.length; i++) { // Offensive
-    let mapping = threeInARows[i].map(index => boardArr[index]);
-    // console.log(threeInARows[i]);
-    // console.log(mapping);
+  for (let idx = 0; idx < threeInARows.length; idx++) { // Offensive
+    let mapping = threeInARows[idx].map(index => boardArr[index]);
     if (mapping.filter(move => move === ' ').length === 1) { // Only interested in the three in a row patterns with one empty square;
       if ((mapping.filter(move => move === COMPUTER_MOVE).length === 2)) {
-        // console.log("Computer move");
-        // console.log(mapping);
-        // console.log(threeInARows[i][mapping.indexOf(' ')]);
-        return threeInARows[i][mapping.indexOf(' ')] + 1; // Returns the index position of the move; Need to add 1 since scaling;
+        return threeInARows[idx][mapping.indexOf(' ')] + 1; // Returns the index position of the move; Need to add 1 since scaling;
       }
-      // else if  {
-      //   return threeinARows[mapping.indexOf(' ')];
-      // }
     }
-  }
 
-  for (let i = 0; i < threeInARows.length; i++) { // Defensive
-    let mapping = threeInARows[i].map(index => boardArr[index]);
+    mapping = threeInARows[idx].map(index => boardArr[index]); // Defensive
     if (mapping.filter(move => move === ' ').length === 1) {
       if (mapping.filter(move => move === HUMAN_MOVE).length === 2) {
-        return threeInARows[i][mapping.indexOf(' ')] + 1;
+        return threeInARows[idx][mapping.indexOf(' ')] + 1;
       }
     }
   }
 
+  // for (let i = 0; i < threeInARows.length; i++) { // Defensive
+    
+  // }
 
-  // console.log(boardArr);
   if (boardArr[4] === ' ') {
     return 5;
   }
   return false;
 }
-
-// console.log(joinOr([1,2]));
-// console.log(joinOr([1,2,3]));
-// console.log(joinOr([1,2,3],';'));
-// console.log(joinOr([1,2,3],',','and'));
 
 while (true) {
   let humanScore = 0;
@@ -97,7 +85,7 @@ while (true) {
     prompt('Please choose a valid response h or c!');
     firstPlayer = readline.question();
   }
-  
+
 
   function incrementScore(winner) {
     if (winner === 'Human') {
@@ -126,7 +114,7 @@ while (true) {
     function humanMove() {
       prompt(`It's your turn! Please pick an empty square ${joinOr(availableSquares)}`);
       let response = Number(readline.question());
-      while (!availableSquares.includes(response[0].toLowerCase())) {
+      while (!availableSquares.includes(response)) {
         prompt(`Please choose a proper, empty square ${joinOr(availableSquares)}`);
         response = Number(readline.question());
       }
@@ -151,10 +139,9 @@ while (true) {
         console.log(`${winner} has won!`);
         break;
       }
-      
+
       // humanMove();
 
-      
 
       // winner = checkWinner(boardArr);
       // if (winner) {
